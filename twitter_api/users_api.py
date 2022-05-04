@@ -1,25 +1,7 @@
-import configparser
 import json
 import requests
-from requests_oauthlib import OAuth1Session
 
 
-config_ini = configparser.ConfigParser(interpolation=None)
-config_ini.read('config.ini', encoding='utf-8')
-
-# 取得した各種キーを格納-----------------------------------------------------
-consumer_key=config_ini['DEFAULT']['API_KEY']
-consumer_secret=config_ini['DEFAULT']['API_SECRET_KEY']
-access_token=config_ini['DEFAULT']['ACCESS_TOKEN']
-access_token_secret=config_ini['DEFAULT']['ACCESS_TOKEN_SECRET']
-bearer_token = config_ini['DEFAULT']['BEARER_TOKEN']
-
-oauth = OAuth1Session(
-    consumer_key,
-    client_secret=consumer_secret,
-    resource_owner_key=access_token,
-    resource_owner_secret=access_token_secret,
-)
 
 def endpoint_user_id_lookup(usernames, user_fields):
     if(any(usernames)):
@@ -65,7 +47,7 @@ def connect_to_endpoint(url, headers):
 
 
 # get tweet
-def get_latest_tweet(user_number):
+def get_latest_tweet(oauth, user_number):
     """
     input : user_number 
         ユーザー固有のuser_id
