@@ -14,14 +14,14 @@ access_token=config_ini['DEFAULT']['ACCESS_TOKEN']
 access_token_secret=config_ini['DEFAULT']['ACCESS_TOKEN_SECRET']
 bearer_token = config_ini['DEFAULT']['BEARER_TOKEN']
 
-oauth = OAuth1Session(
-    consumer_key,
-    client_secret=consumer_secret,
-    resource_owner_key=access_token,
-    resource_owner_secret=access_token_secret,
-)
+# oauth = OAuth1Session(
+#     consumer_key,
+#     client_secret=consumer_secret,
+#     resource_owner_key=access_token,
+#     resource_owner_secret=access_token_secret,
+# )
 
-def create_url(usernames, user_fields):
+def url_user_id_lookup(usernames, user_fields):
     if(any(usernames)):
         formatted_user_names = "usernames=" + ",".join(usernames)
     else:
@@ -33,6 +33,21 @@ def create_url(usernames, user_fields):
         formatted_user_fields = "user.fields=id,name,username"
 
     url = "https://api.twitter.com/2/users/by?{}&{}".format(formatted_user_names, formatted_user_fields)
+    return url
+
+
+def url_following_users(user_id, ff, max_results, next_token, user_fields):
+    if(any(user_fields)):
+        formatted_user_fields = "user.fields=" + ",".join(user_fields)
+    else:
+        formatted_user_fields = ""
+    if(next_token is not None):
+        formatted_next_token = "&pagination_token=" + (next_token)
+    else:
+        formatted_next_token = ""
+    if(max_results > 1000): max_results = 1000 
+    #&pagination_token=
+    url = "https://api.twitter.com/2/users/{}/{}?max_results={}{}&{}".format(user_id, ff, max_results, formatted_next_token, formatted_user_fields)
     return url
 
 
@@ -50,47 +65,64 @@ def connect_to_endpoint(url, headers):
     return response.json()
 
 
-# get tweet
-def get_tweet(user_number):
-    """
-    input : user_number 
-        ユーザー固有のuser_id
-    output : json
-        user_idに紐づくユーザーの直近10個のツイート情報
-        tweet_idとテキストの中身を選択している
-    """
-    tweet_number = oauth.get(
-        "https://api.twitter.com/2/users/"+str(user_number)+"/tweets"
-    )
-    if tweet_number.status_code != 200 :
-        raise Exception(
-            "Request returned an error: {} {}".format(tweet_number.status_code, engagement.text)
-        )
-    print("Response code: {}".format(tweet_number.status_code), "user_number")
-    # Saving the response as JSON
-    json_tweet_number = tweet_number.json()
-    # print(json.dumps(json_tweet_number, indent=4, sort_keys=True))
-    return json.dumps(json_tweet_number, indent=4, sort_keys=True, ensure_ascii=False)
-
-# This is my user_id
-print(get_tweet(1094899950922563585))
+# # get tweet
+# def get_tweet(user_number):
+#     """
+#     input : user_number 
+#         ユーザー固有のuser_id
+#     output : json
+#         user_idに紐づくユーザーの直近10個のツイート情報
+#         tweet_idとテキストの中身を選択している
+#     """
+#     tweet_number = oauth.get(
+#         "https://api.twitter.com/2/users/"+str(user_number)+"/tweets"
+#     )
+#     if tweet_number.status_code != 200 :
+#         raise Exception(
+#             "Request returned an error: {} {}".format(tweet_number.status_code, engagement.text)
+#         )
+#     print("Response code: {}".format(tweet_number.status_code), "user_number")
+#     # Saving the response as JSON
+#     json_tweet_number = tweet_number.json()
+#     # print(json.dumps(json_tweet_number, indent=4, sort_keys=True))
+#     return json.dumps(json_tweet_number, indent=4, sort_keys=True, ensure_ascii=False)
 
 def main():
-    usernames = ["BacktestL",]
-    user_fields = ["id", "name", "username", "created_at","protected", 
-    "withheld", "location", "url", "description", "verified", "entities",
-    "profile_image_url", "public_metrics", "pinned_tweet_id"]
+    usernames = ["BacktestL"] #　input
 
-    # データ取得
-    url = create_url(usernames, user_fields)
-    print(url)
+    user_fields = ["id", "name", "username", "public_metrics",]
+    url = url_user_id_lookup(usernames, user_fields)
     headers = create_headers(bearer_token)
-    print(headers)
     json_response = connect_to_endpoint(url, headers)
-    print(json_response)
-    data =  json_response["data"]
-    print(data)
+    user_id =  json_response["data"][0]['id']
 
+    ff = "following"    
+    max_results = 10000 # 取得したいデータ数
+    user_fields = ["id", "name", "username","description",]
+    
+    #### データ取得
+    following_users_id = []
+    next_token = None
+    data_len = 0
+    while(True):
+        url = url_following_users(user_id, ff, max_results, next_token, user_fields)
+        headers = create_headers(bearer_token)
+        json_response = connect_to_endpoint(url, headers)
+        data = json_response["data"]
+        meta = json_response["meta"]
+
+        #### 終了チェック(欲しい数に達するか全て取り終わったら終了)
+        data_len += len(data)
+        if(max_results <= data_len): break
+        if(not "next_token" in meta): break
+        next_token = meta["next_token"]
+    pass
+    for data_ele in data:
+        following_users_id.append(data_ele['id'])
+
+
+    # print(json.dumps(data, indent=4, sort_keys=True, ensure_ascii=False))
+    print(following_users_id)
 
 
 if __name__ == "__main__":
