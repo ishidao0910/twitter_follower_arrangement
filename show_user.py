@@ -66,7 +66,7 @@ def connect_to_endpoint(url, headers):
 
 
 # get tweet
-def get_tweet(user_number):
+def get_latest_tweet(user_number):
     """
     input : user_number 
         ユーザー固有のuser_id
@@ -75,17 +75,18 @@ def get_tweet(user_number):
         tweet_idとテキストの中身を選択している
     """
     tweet_number = oauth.get(
-        "https://api.twitter.com/2/users/"+str(user_number)+"/tweets"
+        "https://api.twitter.com/2/users/"+str(user_number)+"/tweets?max_results=5&tweet.fields=created_at"
     )
     if tweet_number.status_code != 200 :
         raise Exception(
-            "Request returned an error: {} {}".format(tweet_number.status_code, engagement.text)
+            "Request returned an error: {}".format(tweet_number)
         )
     print("Response code: {}".format(tweet_number.status_code), "user_number")
     # Saving the response as JSON
     json_tweet_number = tweet_number.json()
     # print(json.dumps(json_tweet_number, indent=4, sort_keys=True))
-    return json.dumps(json_tweet_number, indent=4, sort_keys=True, ensure_ascii=False)
+    return json_tweet_number
+    # return json.dumps(json_tweet_number, indent=4, sort_keys=True, ensure_ascii=False)
 
 def main():
     usernames = ["BacktestL"] #　input
@@ -123,8 +124,11 @@ def main():
 
     # print(json.dumps(data, indent=4, sort_keys=True, ensure_ascii=False))
     print(following_users_id)
-    for i in following_users_id:
-        print(get_tweet(i))
+    for following_user_id in following_users_id:
+        data = get_latest_tweet(following_user_id)
+        latest_tweet_created = data['data'][0]['created_at']
+        latest_tweet = data['data'][0]['text']
+        print(latest_tweet_created, ":", latest_tweet)
 
 
 if __name__ == "__main__":
