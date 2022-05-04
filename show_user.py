@@ -14,12 +14,12 @@ access_token=config_ini['DEFAULT']['ACCESS_TOKEN']
 access_token_secret=config_ini['DEFAULT']['ACCESS_TOKEN_SECRET']
 bearer_token = config_ini['DEFAULT']['BEARER_TOKEN']
 
-# oauth = OAuth1Session(
-#     consumer_key,
-#     client_secret=consumer_secret,
-#     resource_owner_key=access_token,
-#     resource_owner_secret=access_token_secret,
-# )
+oauth = OAuth1Session(
+    consumer_key,
+    client_secret=consumer_secret,
+    resource_owner_key=access_token,
+    resource_owner_secret=access_token_secret,
+)
 
 def url_user_id_lookup(usernames, user_fields):
     if(any(usernames)):
@@ -65,27 +65,27 @@ def connect_to_endpoint(url, headers):
     return response.json()
 
 
-# # get tweet
-# def get_tweet(user_number):
-#     """
-#     input : user_number 
-#         ユーザー固有のuser_id
-#     output : json
-#         user_idに紐づくユーザーの直近10個のツイート情報
-#         tweet_idとテキストの中身を選択している
-#     """
-#     tweet_number = oauth.get(
-#         "https://api.twitter.com/2/users/"+str(user_number)+"/tweets"
-#     )
-#     if tweet_number.status_code != 200 :
-#         raise Exception(
-#             "Request returned an error: {} {}".format(tweet_number.status_code, engagement.text)
-#         )
-#     print("Response code: {}".format(tweet_number.status_code), "user_number")
-#     # Saving the response as JSON
-#     json_tweet_number = tweet_number.json()
-#     # print(json.dumps(json_tweet_number, indent=4, sort_keys=True))
-#     return json.dumps(json_tweet_number, indent=4, sort_keys=True, ensure_ascii=False)
+# get tweet
+def get_tweet(user_number):
+    """
+    input : user_number 
+        ユーザー固有のuser_id
+    output : json
+        user_idに紐づくユーザーの直近10個のツイート情報
+        tweet_idとテキストの中身を選択している
+    """
+    tweet_number = oauth.get(
+        "https://api.twitter.com/2/users/"+str(user_number)+"/tweets"
+    )
+    if tweet_number.status_code != 200 :
+        raise Exception(
+            "Request returned an error: {} {}".format(tweet_number.status_code, engagement.text)
+        )
+    print("Response code: {}".format(tweet_number.status_code), "user_number")
+    # Saving the response as JSON
+    json_tweet_number = tweet_number.json()
+    # print(json.dumps(json_tweet_number, indent=4, sort_keys=True))
+    return json.dumps(json_tweet_number, indent=4, sort_keys=True, ensure_ascii=False)
 
 def main():
     usernames = ["BacktestL"] #　input
@@ -97,7 +97,7 @@ def main():
     user_id =  json_response["data"][0]['id']
 
     ff = "following"    
-    max_results = 10000 # 取得したいデータ数
+    max_results = 5 # 取得したいデータ数
     user_fields = ["id", "name", "username","description",]
     
     #### データ取得
@@ -123,6 +123,8 @@ def main():
 
     # print(json.dumps(data, indent=4, sort_keys=True, ensure_ascii=False))
     print(following_users_id)
+    for i in following_users_id:
+        print(get_tweet(i))
 
 
 if __name__ == "__main__":
