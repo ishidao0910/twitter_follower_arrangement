@@ -21,7 +21,7 @@ oauth = OAuth1Session(
     resource_owner_secret=access_token_secret,
 )
 
-def url_user_id_lookup(usernames, user_fields):
+def endpoint_user_id_lookup(usernames, user_fields):
     if(any(usernames)):
         formatted_user_names = "usernames=" + ",".join(usernames)
     else:
@@ -36,7 +36,7 @@ def url_user_id_lookup(usernames, user_fields):
     return url
 
 
-def url_following_users(user_id, ff, max_results, next_token, user_fields):
+def endpoint_following_users(user_id, ff, max_results, next_token, user_fields):
     if(any(user_fields)):
         formatted_user_fields = "user.fields=" + ",".join(user_fields)
     else:
@@ -56,7 +56,6 @@ def create_headers(bearer_token):
     return headers
 
 
-# url：APIリクエスト用のURL headers:APIリクエスト用のヘッダー APIリクエスト
 def connect_to_endpoint(url, headers):
     response = requests.request("GET", url, headers=headers)
     print(response.status_code)
@@ -71,7 +70,7 @@ def get_latest_tweet(user_number):
     input : user_number 
         ユーザー固有のuser_id
     output : json
-        user_idに紐づくユーザーの直近10個のツイート情報
+        user_idに紐づくユーザーの直近5個のツイート情報(minが5件)
         tweet_idとテキストの中身を選択している
     """
     tweet_number = oauth.get(
@@ -81,18 +80,16 @@ def get_latest_tweet(user_number):
         raise Exception(
             "Request returned an error: {}".format(tweet_number)
         )
-    print("Response code: {}".format(tweet_number.status_code), "user_number")
-    # Saving the response as JSON
+    # print("Response code: {}".format(tweet_number.status_code), "user_number")
     json_tweet_number = tweet_number.json()
     # print(json.dumps(json_tweet_number, indent=4, sort_keys=True))
     return json_tweet_number
-    # return json.dumps(json_tweet_number, indent=4, sort_keys=True, ensure_ascii=False)
 
 def main():
     usernames = ["BacktestL"] #　input
 
     user_fields = ["id", "name", "username", "public_metrics",]
-    url = url_user_id_lookup(usernames, user_fields)
+    url = endpoint_user_id_lookup(usernames, user_fields)
     headers = create_headers(bearer_token)
     json_response = connect_to_endpoint(url, headers)
     user_id =  json_response["data"][0]['id']
@@ -106,7 +103,7 @@ def main():
     next_token = None
     data_len = 0
     while(True):
-        url = url_following_users(user_id, ff, max_results, next_token, user_fields)
+        url = endpoint_following_users(user_id, ff, max_results, next_token, user_fields)
         headers = create_headers(bearer_token)
         json_response = connect_to_endpoint(url, headers)
         data = json_response["data"]
