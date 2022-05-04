@@ -34,7 +34,7 @@ app = Flask(__name__)
 def get():
     return render_template('form.html')
 
-#postのときの処理 
+
 @app.route('/', methods=['POST'])
 def post():
     twitter_id = [request.form['twitter_id']]
@@ -73,16 +73,16 @@ def post():
 
     # print(json.dumps(data, indent=4, sort_keys=True, ensure_ascii=False))
     # print(following_users_id)
-    print("------------------------------")
+    d = {}
     for name, following_user_id in zip(following_user_name, following_users_id):
         data = get_latest_tweet(oauth, following_user_id)
         latest_tweet_created = data['data'][0]['created_at']
         latest_tweet = data['data'][0]['text']
-        print(name, ":", latest_tweet_created)
-        print(latest_tweet)
-        print("------------------------------")
+        d["info"] = {name,latest_tweet_created, latest_tweet}
+        # print(name, ":", latest_tweet_created)
+        # print(latest_tweet)
 
-    return render_template('form.html')
+    return render_template('result.html', d=d)
 
 #pythonで実行されたときに処理をする
 if __name__ == '__main__':
