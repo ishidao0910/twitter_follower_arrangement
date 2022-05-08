@@ -1,8 +1,21 @@
+import { StrictMode } from "react";
 import React from "react";
 import ReactDom from "react-dom";
 
+// import App from "./App";
+
 const App = () => {
-    return <h1>  lkdjfal </h1>;
+  return (
+  <React.Fragment>
+    <h1> test h1 </h1>
+    <p> test p tag </p>
+  </React.Fragment>
+  );
 };
 
-ReactDom.render(<App />, document.getElementById("root"));
+ReactDom.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+  , document.getElementById("root")
+);
