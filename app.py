@@ -81,6 +81,7 @@ def post():
         d[name] = {latest_tweet_created, latest_tweet}
         # print(name, ":", latest_tweet_created)
         # print(latest_tweet)
+        # ここでdictを返したい。
 
     print(d)
     return render_template('result.html', d=d)
