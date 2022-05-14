@@ -47,7 +47,7 @@ def post():
     # print("user id ", user_id)
 
     ff = "following"    
-    max_results = 15 # 取得したいデータ数
+    max_results = 25 # 取得したいデータ数
     user_fields = ["id", "name", "username","description",]
 
     following_users_id = []
