@@ -8,10 +8,9 @@
   <body>
     <h1>四国一覧</h1>
     <ul>
-        <li>{{ name[0] }}</li>
-        <li>{{ name[1] }}</li>
-        <li>{{ name[2] }}</li>
-        <li>{{ name[3] }}</li>
-    </ul>
+      {% for i in name %}
+          <li>{{ i }}</li>
+      {% endfor %}
+      </ul>
   </body>
 </html>
