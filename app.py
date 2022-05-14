@@ -73,15 +73,16 @@ def post():
 
     # print(json.dumps(data, indent=4, sort_keys=True, ensure_ascii=False))
     # print(following_users_id)
-    d = {}
+    d = []
     for name, following_user_id in zip(following_user_name, following_users_id):
         data = get_latest_tweet(oauth, following_user_id)
         latest_tweet_created = data['data'][0]['created_at']
         latest_tweet = data['data'][0]['text']
-        d["info"] = {name,latest_tweet_created, latest_tweet}
+        d[name] = {latest_tweet_created, latest_tweet}
         # print(name, ":", latest_tweet_created)
         # print(latest_tweet)
 
+    print(d)
     return render_template('result.html', d=d)
 
 #pythonで実行されたときに処理をする
