@@ -47,7 +47,7 @@ def post():
     # print("user id ", user_id)
 
     ff = "following"    
-    max_results = 5 # 取得したいデータ数
+    max_results = 100 # 取得したいデータ数
     user_fields = ["id", "name", "username","description",]
 
     following_users_id = []
@@ -73,18 +73,25 @@ def post():
 
     # print(json.dumps(data, indent=4, sort_keys=True, ensure_ascii=False))
     # print(following_users_id)
-    d = []
+    name_list = []
+    last_tweet_created_list = []
+    latest_tweet_list = []
     for name, following_user_id in zip(following_user_name, following_users_id):
         data = get_latest_tweet(oauth, following_user_id)
         latest_tweet_created = data['data'][0]['created_at']
         latest_tweet = data['data'][0]['text']
-        d[name] = {latest_tweet_created, latest_tweet}
-        # print(name, ":", latest_tweet_created)
-        # print(latest_tweet)
-        # ここでdictを返したい。
+        name_list.append(name)
+        last_tweet_created_list.append(latest_tweet_created)
+        latest_tweet_list.append(latest_tweet)
 
-    print(d)
-    return render_template('result.html', d=d)
+    # print(name_list)
+    # print(last_tweet_created_list)
+    # print(latest_tweet_list)
+    return render_template('result.html', 
+    name=name_list, 
+    last_tweet_created=last_tweet_created_list, 
+    latest_tweet=latest_tweet_list
+    )
 
 #pythonで実行されたときに処理をする
 if __name__ == '__main__':
