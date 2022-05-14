@@ -3,7 +3,7 @@
 
 # UI
 
-## index
+## form
 <img width="668" alt="スクリーンショット 2022-05-05 7 27 12" src="https://user-images.githubusercontent.com/73809994/166835705-73e4efab-c528-498d-ba46-03177f1664a1.png">
 
 ## result
