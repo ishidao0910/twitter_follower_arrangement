@@ -1,27 +1,171 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <script>
-            $(function() {
-                //データ
-                var data = [
-                    { "animal": "いぬ", "type": "パグ" },
-                    { "animal": "ねこ", "type": "ペルシャ" },
-                    { "animal": "うさぎ", "type": "ネザーランド・ドワーフ" },
-                    { "animal": "ハムスター", "type": "ジャンガリアンハムスター" },
-                ];
-            
-                //表示する処理
-                for(var i in d){
-                    $("#contents_list").append("<li>" + data[i].animal + "（" + data[i].type + "）</li>");
-                }
-            });
-        </script>
-    </head>
-    <body>
-        <div> {{ d }} </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <ul id="list">
-        <!-- ここに出力します -->
-        </ul>
-    </body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="src/style.css">
+    <title>dashboard</title>
+  </head>
+  <body>
+    <h1>フォロー情報一覧</h1>  
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">user name</th>
+            <th scope="col">date</th>
+            <th scope="col">tweet</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>{{ name[0] }}</td>
+            <td>{{ last_tweet_created[0] }}</td>
+            <td>{{ latest_tweet[0] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>{{ name[1] }}</td>
+            <td>{{ last_tweet_created[1] }}</td>
+            <td>{{ latest_tweet[1] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>{{ name[2] }}</td>
+            <td>{{ last_tweet_created[2] }}</td>
+            <td>{{ latest_tweet[2] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>{{ name[3] }}</td>
+            <td>{{ last_tweet_created[3] }}</td>
+            <td>{{ latest_tweet[3] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>{{ name[4] }}</td>
+            <td>{{ last_tweet_created[4] }}</td>
+            <td>{{ latest_tweet[4] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">6</th>
+            <td>{{ name[5] }}</td>
+            <td>{{ last_tweet_created[5] }}</td>
+            <td>{{ latest_tweet[5] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">7</th>
+            <td>{{ name[6] }}</td>
+            <td>{{ last_tweet_created[6] }}</td>
+            <td>{{ latest_tweet[6] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">8</th>
+            <td>{{ name[7] }}</td>
+            <td>{{ last_tweet_created[7] }}</td>
+            <td>{{ latest_tweet[7] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">9</th>
+            <td>{{ name[8] }}</td>
+            <td>{{ last_tweet_created[8] }}</td>
+            <td>{{ latest_tweet[8] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">10</th>
+            <td>{{ name[9] }}</td>
+            <td>{{ last_tweet_created[9] }}</td>
+            <td>{{ latest_tweet[9] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">11</th>
+            <td>{{ name[10] }}</td>
+            <td>{{ last_tweet_created[10] }}</td>
+            <td>{{ latest_tweet[10] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">12</th>
+            <td>{{ name[11] }}</td>
+            <td>{{ last_tweet_created[11] }}</td>
+            <td>{{ latest_tweet[11] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">13</th>
+            <td>{{ name[12] }}</td>
+            <td>{{ last_tweet_created[12] }}</td>
+            <td>{{ latest_tweet[12] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">14</th>
+            <td>{{ name[13] }}</td>
+            <td>{{ last_tweet_created[13] }}</td>
+            <td>{{ latest_tweet[13] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">15</th>
+            <td>{{ name[14] }}</td>
+            <td>{{ last_tweet_created[14] }}</td>
+            <td>{{ latest_tweet[14] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">16</th>
+            <td>{{ name[15] }}</td>
+            <td>{{ last_tweet_created[15] }}</td>
+            <td>{{ latest_tweet[15] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">17</th>
+            <td>{{ name[16] }}</td>
+            <td>{{ last_tweet_created[16] }}</td>
+            <td>{{ latest_tweet[16] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">18</th>
+            <td>{{ name[17] }}</td>
+            <td>{{ last_tweet_created[17] }}</td>
+            <td>{{ latest_tweet[17] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">19</th>
+            <td>{{ name[18] }}</td>
+            <td>{{ last_tweet_created[18] }}</td>
+            <td>{{ latest_tweet[18] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">20</th>
+            <td>{{ name[19] }}</td>
+            <td>{{ last_tweet_created[19] }}</td>
+            <td>{{ latest_tweet[19] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">21</th>
+            <td>{{ name[20] }}</td>
+            <td>{{ last_tweet_created[20] }}</td>
+            <td>{{ latest_tweet[20] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">22</th>
+            <td>{{ name[21] }}</td>
+            <td>{{ last_tweet_created[21] }}</td>
+            <td>{{ latest_tweet[21] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">23</th>
+            <td>{{ name[22] }}</td>
+            <td>{{ last_tweet_created[22] }}</td>
+            <td>{{ latest_tweet[22] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">24</th>
+            <td>{{ name[23] }}</td>
+            <td>{{ last_tweet_created[23] }}</td>
+            <td>{{ latest_tweet[23] }}</td>
+          </tr>
+          
+        </tbody>
+      </table>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>
