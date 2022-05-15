@@ -13,3 +13,25 @@
 # terminal
 <img width="803" alt="スクリーンショット 2022-05-05 7 27 26" src="https://user-images.githubusercontent.com/73809994/166835726-111b1011-8aa1-44ce-b348-61a1df09c475.png">
 
+# docker操作
+
+ビルドする
+```
+docker build -t follower_arrangement .
+```
+
+コンテナ立ち上げる
+```
+docker container run -it -p 8000:5000 -v {{作業ディレクトリ}}/src:/workdir --name follower_arrangement follower_arrangement /bin/bash
+```
+
+コンテナ起動
+```
+docker start follower_arrangement
+```
+
+コンテナに入る
+```
+docker exec -it follower_arrangement bash
+```
+
